@@ -152,3 +152,49 @@ func GetZodiacSign(date time.Time) []ZodiacSign {
 	}
 	return []ZodiacSign{Pisces}
 }
+func GetZodiacSignLocale(date time.Time, locale string) (signs []string) {
+	type ss []string
+	icon := ss{
+		"♈︎",
+		"♉︎",
+		"♊︎",
+		"♋︎",
+		"♌︎",
+		"♍︎",
+		"♎︎",
+		"♏︎",
+		"♐︎",
+		"♑︎",
+		"♒︎",
+		"♓︎",
+	}
+	ru := ss{
+		"Овен",
+		"Телец",
+		"Близнецы",
+		"Рак",
+		"Лев",
+		"Дева",
+		"Весы",
+		"Скорпион",
+		"Стрелец",
+		"Козерог",
+		"Водолей",
+		"Рыбы",
+	}
+	msSs := map[string]ss{
+		"ru": ru,
+	}
+	names, ok := msSs[locale]
+	if !ok {
+		names = icon
+	}
+	for _, sign := range GetZodiacSign(date) {
+		if locale == "en" {
+			signs = append(signs, sign.String())
+			continue
+		}
+		signs = append(signs, names[int(sign)])
+	}
+	return
+}

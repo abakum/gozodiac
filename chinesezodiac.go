@@ -110,3 +110,45 @@ func GetChineseZodiacSign(date time.Time) ChineseZodiacSign {
 
 	return Error // never reach here..
 }
+func GetChineseZodiacSignLocale(date time.Time, locale string) string {
+	type ss []string
+	icon := ss{
+		"🐒",
+		"🐓",
+		"🐕",
+		"🐖",
+		"🐀",
+		"🐂",
+		"🐅",
+		"🐇",
+		"🐉",
+		"🐍",
+		"🐎",
+		"🐐",
+	}
+	ru := ss{
+		"Обезьяна",
+		"Петух",
+		"Собака",
+		"Свинья",
+		"Крыса",
+		"Бык",
+		"Тигр",
+		"Кролик",
+		"Дракон",
+		"Змея",
+		"Лошадь",
+		"Коза",
+	}
+	msSs := map[string]ss{
+		"ru": ru,
+	}
+	names, ok := msSs[locale]
+	if !ok {
+		names = icon
+	}
+	if locale == "en" {
+		return GetChineseZodiacSign(date).String()
+	}
+	return names[int(GetChineseZodiacSign(date))]
+}
